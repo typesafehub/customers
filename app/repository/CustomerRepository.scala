@@ -1,5 +1,7 @@
 package repository
 
+import slick.jdbc.GetResult
+
 import scala.concurrent.Future
 
 import javax.inject.Inject
@@ -17,8 +19,16 @@ class CustomerRepository @Inject()(protected val dbConfigProvider: DatabaseConfi
   def all(): Future[Seq[Customer]] =
     db.run(customers.result)
 
-  def insert(name: String): Future[Int] =
-    db.run(customers.map(_.name).returning(customers.map(_.id)) += name)
+  implicit object GetUnit extends GetResult[Unit] {
+    def apply(rs : slick.jdbc.PositionedResult) : Unit = ()
+  }
+
+  def insert(name: String): Future[Customer] =
+    db.run {
+      for {
+        customer <- customers.map(_.name).returning(customers) += name
+      } yield customer
+    }
 
   private class Customers(tag: Tag) extends Table[Customer](tag, "customer") {
 

@@ -3,8 +3,6 @@
 # ~~~~
 
 # Home page
-GET     /customers/:name            controllers.CustomerController.findByName(name)
-
 GET     /customers                  controllers.CustomerController.findAll
 
 POST    /customers                  controllers.CustomerController.insert
