@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-export POSTGRES_DBNAME=customerdb
-export POSTGRES_PASSWORD=mysecretpassword
-
-export CONTAINER_ENV=$CONTAINER_ENV:POSTGRES_DBNAME:POSTGRES_PASSWORD
